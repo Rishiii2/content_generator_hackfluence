@@ -1,3 +1,8 @@
+import sys
+import os
+# Ensure the current directory is in sys.path so Vercel can find models.py
+sys.path.insert(0, os.path.dirname(__file__))
+
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
