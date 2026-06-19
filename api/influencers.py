@@ -30,6 +30,9 @@ INFLUENCERS = [
     # Art & Stationery
     {"name": "Sketch Book Pro", "niche": "digital art & sketching", "followers": 140000, "engagement": 5.9, "audience": "mixed 15-25"},
     {"name": "Journaling Magic", "niche": "stationery & journaling", "followers": 75000, "engagement": 6.8, "audience": "women 15-35"},
+    {"name": "The Canvas Gallery", "niche": "fine art & painting", "followers": 250000, "engagement": 6.2, "audience": "mixed 25-50"},
+    {"name": "Modern Sculptor", "niche": "sculpture & physical art", "followers": 90000, "engagement": 7.1, "audience": "art collectors 30-60"},
+    {"name": "Handmade Artisan Studio", "niche": "traditional handcrafted art", "followers": 115000, "engagement": 5.8, "audience": "women 25-55"},
 ]
 
 def get_influencers():
