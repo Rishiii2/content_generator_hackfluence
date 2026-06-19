@@ -1,12 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import PageTransition from "@/components/ui/page-transition";
 
 export default function OutreachPage() {
   const [outreachMessage, setOutreachMessage] = useState("Click Regenerate to generate outreach with Gemini 2.5 Flash...");
   const [loading, setLoading] = useState(false);
+  const [productName, setProductName] = useState("Handmade Terracotta Vase");
+
+  useEffect(() => {
+    try {
+      const data = JSON.parse(localStorage.getItem("product") || "{}");
+      if (data.name) setProductName(data.name);
+    } catch (e) {}
+  }, []);
 
   const generateMessage = async () => {
     setLoading(true);
@@ -117,7 +125,7 @@ KarigarConnect AI
                     </p>
 
                     <div className="mt-2 text-3xl font-bold">
-                      {JSON.parse(localStorage.getItem("product") || "{}").name || "Handmade Terracotta Vase"}
+                      {productName}
                     </div>
                   </div>
 
