@@ -7,14 +7,36 @@ import PageTransition from "@/components/ui/page-transition";
 
 export default function AnalysisPage() {
   const [product, setProduct] = useState<any>();
+  const [analysis, setAnalysis] = useState<any>();
 
   useEffect(() => {
     const data = localStorage.getItem("product");
-
     if (data) {
-      setProduct(JSON.parse(data));
+      const parsedProduct = JSON.parse(data);
+      setProduct(parsedProduct);
+      
+      const fetchAnalysis = async () => {
+        try {
+          const res = await fetch("/api/analyze", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              product_name: parsedProduct.name || "Handmade Terracotta Vase",
+              price: parseFloat((parsedProduct.price || "800").replace("₹", "")),
+              description: parsedProduct.description || "Eco-friendly handmade pottery"
+            })
+          });
+          const ans = await res.json();
+          setAnalysis(ans);
+        } catch(e) {
+          console.error(e);
+        }
+      };
+      fetchAnalysis();
     }
   }, []);
+
+
 
   return (
     <DashboardLayout>
@@ -134,7 +156,7 @@ export default function AnalysisPage() {
               </p>
 
               <h3 className="mt-6 text-5xl font-bold">
-                Home Decor
+                {analysis ? analysis.category : 'Home Decor'}
               </h3>
 
               <p className="mt-4 text-[#6e7064]">
@@ -149,12 +171,12 @@ export default function AnalysisPage() {
               </p>
 
               <h3 className="mt-6 text-5xl font-bold">
-                Women 25–40
+                {analysis ? analysis.audience : 'Women 25–40'}
               </h3>
 
               <p className="mt-4 text-[#6e7064]">
-                Sustainability-focused consumers with
-                high purchase intent.
+                {analysis ? `Aligned with interests like ${analysis.interests?.join(', ')}` : 'Sustainability-focused consumers with'}
+                
               </p>
             </div>
           </div>
@@ -169,8 +191,7 @@ export default function AnalysisPage() {
             <h2 className="mt-6 max-w-5xl text-5xl font-bold leading-tight">
               This product demonstrates
               strong creator-commerce potential
-              within sustainability, lifestyle
-              and handcrafted goods categories.
+              within {analysis ? analysis.keywords?.slice(0,3).join(', ') : 'sustainability, lifestyle and handcrafted goods'} categories.
             </h2>
 
             <p className="mt-8 max-w-3xl text-lg leading-relaxed text-white/70">
