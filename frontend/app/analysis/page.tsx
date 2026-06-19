@@ -19,150 +19,199 @@ export default function AnalysisPage() {
   return (
     <DashboardLayout>
       <PageTransition>
-      <div>
-        <div className="flex justify-between">
-          <div>
-            <h1 className="text-4xl font-bold">
-              AI Product Analysis
+        <div className="max-w-7xl">
+          {/* Header */}
+
+          <div className="border-b border-black/10 pb-16">
+            <p className="text-xs tracking-[0.35em] text-[#6e7064]">
+              02 / PRODUCT INTELLIGENCE
+            </p>
+
+            <h1 className="mt-6 text-7xl font-bold leading-[0.92] text-[#1c1b17]">
+              AI Product
+              <br />
+              Analysis
             </h1>
 
-            <p className="mt-2 text-slate-600">
-              Gemini-generated insights.
+            <p className="mt-8 max-w-3xl text-lg text-[#6e7064]">
+              Machine learning models evaluate product
+              positioning, audience alignment, creator
+              relevance and market demand before campaign
+              deployment.
             </p>
           </div>
 
-          <Link
-            href="/matching"
-            className="rounded-xl bg-orange-600 px-5 py-3 text-white"
-          >
-            Find Influencers →
-          </Link>
-        </div>
+          {/* Product Section */}
 
-        {product && (
-          <div className="mt-8 rounded-3xl border bg-white p-6">
-            <h2 className="text-2xl font-bold">
-              {product.name}
+          {product && (
+            <div className="mt-16 grid gap-12 lg:grid-cols-[1fr_1fr]">
+              <div>
+                {product.image && (
+                  <img
+                    src={product.image}
+                    alt="product"
+                    className="h-[500px] w-full object-cover"
+                  />
+                )}
+              </div>
+
+              <div>
+                <p className="text-xs tracking-[0.35em] text-[#6e7064]">
+                  FIG. A
+                </p>
+
+                <h2 className="mt-4 text-5xl font-bold text-[#1c1b17]">
+                  {product.name}
+                </h2>
+
+                <p className="mt-4 text-3xl font-semibold">
+                  ₹{product.price}
+                </p>
+
+                <p className="mt-8 leading-relaxed text-[#6e7064]">
+                  {product.description}
+                </p>
+
+                <div className="mt-12 border-t border-black/10 pt-8">
+                  <p className="text-xs tracking-[0.35em] text-[#6e7064]">
+                    STATUS
+                  </p>
+
+                  <p className="mt-4 text-2xl font-bold">
+                    Ready For Creator Matching
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Intelligence Metrics */}
+
+          <div className="mt-20">
+            <p className="text-xs tracking-[0.35em] text-[#6e7064]">
+              PRODUCT INTELLIGENCE
+            </p>
+
+            <div className="mt-10 grid gap-10 md:grid-cols-3">
+              <div className="border-t border-black/10 pt-6">
+                <p className="text-sm text-[#6e7064]">
+                  Sustainability Score
+                </p>
+
+                <p className="mt-4 text-7xl font-bold">
+                  91
+                </p>
+              </div>
+
+              <div className="border-t border-black/10 pt-6">
+                <p className="text-sm text-[#6e7064]">
+                  Market Demand
+                </p>
+
+                <p className="mt-4 text-7xl font-bold">
+                  High
+                </p>
+              </div>
+
+              <div className="border-t border-black/10 pt-6">
+                <p className="text-sm text-[#6e7064]">
+                  AI Confidence
+                </p>
+
+                <p className="mt-4 text-7xl font-bold">
+                  92%
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Category + Audience */}
+
+          <div className="mt-20 grid gap-10 md:grid-cols-2">
+            <div className="border border-black/10 bg-white p-10">
+              <p className="text-xs tracking-[0.35em] text-[#6e7064]">
+                CATEGORY
+              </p>
+
+              <h3 className="mt-6 text-5xl font-bold">
+                Home Decor
+              </h3>
+
+              <p className="mt-4 text-[#6e7064]">
+                Strong creator-commerce category with
+                growing consumer demand.
+              </p>
+            </div>
+
+            <div className="border border-black/10 bg-white p-10">
+              <p className="text-xs tracking-[0.35em] text-[#6e7064]">
+                TARGET AUDIENCE
+              </p>
+
+              <h3 className="mt-6 text-5xl font-bold">
+                Women 25–40
+              </h3>
+
+              <p className="mt-4 text-[#6e7064]">
+                Sustainability-focused consumers with
+                high purchase intent.
+              </p>
+            </div>
+          </div>
+
+          {/* AI Recommendation */}
+
+          <div className="mt-20 bg-[#1c1b17] p-16 text-white">
+            <p className="text-xs tracking-[0.35em] text-white/50">
+              AI RECOMMENDATION
+            </p>
+
+            <h2 className="mt-6 max-w-5xl text-5xl font-bold leading-tight">
+              This product demonstrates
+              strong creator-commerce potential
+              within sustainability, lifestyle
+              and handcrafted goods categories.
             </h2>
 
-            <p className="mt-2 text-slate-500">
-              ₹{product.price}
+            <p className="mt-8 max-w-3xl text-lg leading-relaxed text-white/70">
+              Audience analysis indicates that
+              eco-conscious consumers are highly
+              responsive to authentic artisan
+              storytelling. Lifestyle and home decor
+              creators are expected to generate the
+              strongest conversion rates.
             </p>
 
-            <p className="mt-4">
-              {product.description}
-            </p>
+            <div className="mt-12 flex items-center justify-between border-t border-white/10 pt-10">
+              <div>
+                <p className="text-xs tracking-[0.35em] text-white/50">
+                  CONFIDENCE SCORE
+                </p>
 
-            {product.image && (
-              <img
-                src={product.image}
-                alt="product"
-                className="mt-6 h-64 rounded-2xl object-cover"
-              />
-            )}
-          </div>
-        )}
+                <div className="mt-4 text-7xl font-bold text-[#efece4]">
+                  92%
+                </div>
+              </div>
 
-<div className="mt-8 rounded-3xl border bg-white p-6">
-  <h2 className="text-xl font-bold">
-    Product Insights
-  </h2>
-
-  <div className="mt-4 grid gap-4 md:grid-cols-3">
-    <div className="rounded-xl bg-orange-50 p-4">
-      <p className="text-sm text-orange-600">
-        Sustainability Score
-      </p>
-
-      <p className="mt-2 text-3xl font-bold">
-        91
-      </p>
-    </div>
-
-    <div className="rounded-xl bg-green-50 p-4">
-      <p className="text-sm text-green-600">
-        Market Demand
-      </p>
-
-      <p className="mt-2 text-3xl font-bold">
-        High
-      </p>
-    </div>
-
-    <div className="rounded-xl bg-blue-50 p-4">
-      <p className="text-sm text-blue-600">
-        AI Confidence
-      </p>
-
-      <p className="mt-2 text-3xl font-bold">
-        92%
-      </p>
-    </div>
-  </div>
-</div>
-
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
-          <div className="rounded-3xl border bg-white p-6">
-            <h3 className="text-slate-500">
-              Category
-            </h3>
-
-            <p className="mt-3 text-2xl font-bold text-orange-600">
-              Home Decor
-            </p>
-          </div>
-
-          <div className="rounded-3xl border bg-white p-6">
-            <h3 className="text-slate-500">
-              Audience
-            </h3>
-
-            <p className="mt-3 text-2xl font-bold">
-              Women 25-40
-            </p>
+              <Link
+                href="/matching"
+                className="
+                  rounded-full
+                  border
+                  border-white/20
+                  px-8
+                  py-4
+                  text-xs
+                  tracking-[0.25em]
+                  text-white
+                "
+              >
+                CONTINUE TO MATCHING →
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
-
-<div className="mt-8 rounded-3xl bg-slate-900 p-8 text-white">
-  <div className="flex items-center justify-between">
-    <div>
-      <h2 className="text-2xl font-bold">
-        AI Confidence Score
-      </h2>
-
-      <p className="mt-2 text-slate-400">
-        Based on product category,
-        audience fit and creator demand.
-      </p>
-    </div>
-
-    <div className="text-6xl font-bold text-green-400">
-      92%
-    </div>
-    <div className="mt-8 rounded-3xl bg-gradient-to-r from-orange-600 to-orange-500 p-8 text-white">
-  <h2 className="text-2xl font-bold">
-    AI Recommendation
-  </h2>
-
-  <p className="mt-4 leading-relaxed text-orange-100">
-    This product is highly suitable for lifestyle,
-    home decor and sustainability creators.
-    The strongest conversion potential comes from
-    female audiences aged 25–40 who engage with
-    eco-friendly purchasing decisions.
-  </p>
-</div>
-    <Link
-  href="/matching"
-  className="mt-8 inline-flex rounded-xl bg-orange-600 px-5 py-3 text-white"
->
-  Continue to Influencer Matching →
-</Link>
-  </div>
-</div>
-</PageTransition>
+      </PageTransition>
     </DashboardLayout>
   );
 }
-

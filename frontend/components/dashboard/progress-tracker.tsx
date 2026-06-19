@@ -1,31 +1,40 @@
-"use client";
-
-import { CheckCircle2 } from "lucide-react";
-
 export default function ProgressTracker() {
   const steps = [
-    "Upload Product",
-    "AI Analysis",
-    "Influencer Match",
-    "Prediction",
-    "Profit",
-    "Outreach",
+    "PRODUCT",
+    "ANALYSIS",
+    "MATCHING",
+    "FORECAST",
+    "PROFIT",
+    "OUTREACH",
   ];
 
   return (
-    <div className="mt-8 rounded-3xl border bg-white p-6 shadow-sm">
-      <h2 className="mb-5 text-xl font-bold">
-        Campaign Workflow
-      </h2>
+    <div className="mt-16 border-y border-black/10 py-10">
+      <div className="mb-8 flex items-center justify-between">
+        <p className="text-xs tracking-[0.35em] text-[#6e7064]">
+          PLATFORM WORKFLOW
+        </p>
 
-      <div className="flex flex-wrap gap-3">
+        <p className="text-xs tracking-[0.35em] text-[#6e7064]">
+          01 — 06
+        </p>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-6">
         {steps.map((step, index) => (
           <div
             key={step}
-            className="flex items-center gap-2 rounded-full bg-orange-50 px-4 py-2 text-sm font-medium text-orange-700"
+            className="relative"
           >
-            <CheckCircle2 size={16} />
-            {index + 1}. {step}
+            <div className="text-5xl font-bold text-[#1c1b17]/15">
+              {String(index + 1).padStart(2, "0")}
+            </div>
+
+            <div className="mt-3 h-px bg-black/10" />
+
+            <p className="mt-4 text-xs tracking-[0.25em] text-[#1c1b17]">
+              {step}
+            </p>
           </div>
         ))}
       </div>

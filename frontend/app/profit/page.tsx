@@ -1,173 +1,260 @@
 "use client";
+
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { fetchFromAPI } from "@/lib/api";
+import { useState } from "react";
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import PageTransition from "@/components/ui/page-transition";
 
 export default function ProfitPage() {
-  const [price, setPrice] = useState(800);
-  const [shipping, setShipping] = useState(120);
-  const [platformFee, setPlatformFee] = useState(15);
-  const [commission, setCommission] = useState(10);
+  const [price, setPrice] = useState("800");
+  const [shipping, setShipping] = useState("120");
+  const [platformFee, setPlatformFee] = useState("15");
+  const [commission, setCommission] = useState("10");
 
-  const [artisanReceives, setArtisanReceives] = useState(0);
-  const [margin, setMargin] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const priceNum = Number(price) || 0;
+  const shippingNum = Number(shipping) || 0;
+  const platformFeeNum = Number(platformFee) || 0;
+  const commissionNum = Number(commission) || 0;
 
-  useEffect(() => {
-    async function calculateProfit() {
-      setIsLoading(true);
-      try {
-        const response = await fetchFromAPI("/profit", {
-          method: "POST",
-          body: JSON.stringify({
-            product_price: price,
-            shipping_cost: shipping,
-            platform_fee: platformFee,
-            commission_percent: commission
-          })
-        });
-        setArtisanReceives(response.artisan_earnings);
-        setMargin(Math.round((response.artisan_earnings / price) * 100) || 0);
-      } catch (err) {
-        console.error("Failed to calculate profit");
-      }
-      setIsLoading(false);
-    }
-    const timeoutId = setTimeout(() => calculateProfit(), 500);
-    return () => clearTimeout(timeoutId);
-  }, [price, shipping, platformFee, commission]);
+  const artisanReceives =
+    priceNum -
+    shippingNum -
+    platformFeeNum -
+    (priceNum * commissionNum) / 100;
+
+  const margin =
+    priceNum > 0
+      ? Math.round((artisanReceives / priceNum) * 100)
+      : 0;
 
   return (
     <DashboardLayout>
-         <PageTransition>
-      <div className="max-w-5xl">
-        <h1 className="text-4xl font-bold">
-          Fair Profit Calculator
-        </h1>
+      <PageTransition>
+        <div className="max-w-7xl">
+          {/* Header */}
 
-        <p className="mt-2 text-slate-600">
-          Understand exactly how much artisans earn.
-        </p>
+          <div className="border-b border-black/10 pb-16">
+            <p className="text-xs tracking-[0.35em] text-[#6e7064]">
+              05 / PROFIT ANALYSIS
+            </p>
 
-        <div className="mt-8 grid gap-8 md:grid-cols-2">
-          {/* Inputs */}
+            <h1 className="mt-6 text-7xl font-bold leading-[0.92] text-[#1c1b17]">
+              Artisan
+              <br />
+              Economics
+            </h1>
 
-          <div className="rounded-3xl border bg-white p-8">
-            <div className="space-y-5">
-              <div>
-                <label>Product Price</label>
-
-                <input
-                  type="number"
-                  value={price}
-                  onChange={(e) =>
-                    setPrice(Number(e.target.value))
-                  }
-                  className="mt-2 w-full rounded-xl border p-3"
-                />
-              </div>
-
-              <div>
-                <label>Shipping Cost</label>
-
-                <input
-                  type="number"
-                  value={shipping}
-                  onChange={(e) =>
-                    setShipping(Number(e.target.value))
-                  }
-                  className="mt-2 w-full rounded-xl border p-3"
-                />
-              </div>
-
-              <div>
-                <label>Platform Fee</label>
-
-                <input
-                  type="number"
-                  value={platformFee}
-                  onChange={(e) =>
-                    setPlatformFee(Number(e.target.value))
-                  }
-                  className="mt-2 w-full rounded-xl border p-3"
-                />
-              </div>
-
-              <div>
-                <label>Influencer Commission %</label>
-
-                <input
-                  type="number"
-                  value={commission}
-                  onChange={(e) =>
-                    setCommission(Number(e.target.value))
-                  }
-                  className="mt-2 w-full rounded-xl border p-3"
-                />
-              </div>
-            </div>
+            <p className="mt-8 max-w-3xl text-lg text-[#6e7064]">
+              Understand exactly how campaign costs,
+              commissions and platform fees impact
+              artisan profitability.
+            </p>
           </div>
 
-          {/* Results */}
+          <div className="mt-16 grid gap-16 lg:grid-cols-[0.9fr_1.1fr]">
+            {/* Inputs */}
 
-          <div className="mt-8 border-t pt-6">
-  <div className="flex justify-between">
-    <span>Product Price</span>
-    <span>₹{price}</span>
-  </div>
-
-  <div className="mt-2 flex justify-between">
-    <span>Shipping</span>
-    <span>-₹{shipping}</span>
-  </div>
-
-  <div className="mt-2 flex justify-between">
-    <span>Platform Fee</span>
-    <span>-₹{platformFee}</span>
-  </div>
-
-  <div className="mt-2 flex justify-between">
-    <span>Commission</span>
-    <span>-{commission}%</span>
-  </div>
-</div>
-
-          <div className="rounded-3xl bg-green-50 border border-green-100 p-8">
-            <h2 className="text-xl font-bold">
-              Artisan Earnings
-            </h2>
-
-            <p className="mt-6 text-5xl font-bold text-green-700">
-              ₹{isLoading ? "..." : artisanReceives}
-            </p>
-
-            <p className="mt-3 text-green-600">
-              Margin: {isLoading ? "..." : margin}%
-            </p>
-
-            <div className="mt-8 rounded-2xl bg-white p-5">
-              <h3 className="font-semibold">
-                Transparency Matters
-              </h3>
-
-              <p className="mt-2 text-slate-600">
-                KarigarConnect AI helps artisans see
-                hidden costs and maximize earnings.
+            <div>
+              <p className="text-xs tracking-[0.35em] text-[#6e7064]">
+                INPUT VARIABLES
               </p>
+
+              <div className="mt-8 border border-black/10 bg-white p-10">
+                {/* Product Price */}
+
+                <div className="mb-10">
+                  <p className="text-xs tracking-[0.25em] text-[#6e7064]">
+                    PRODUCT PRICE
+                  </p>
+
+                  <input
+                    type="number"
+                    value={price}
+                    onChange={(e) =>
+                      setPrice(e.target.value)
+                    }
+                    className="
+                      mt-4
+                      w-full
+                      border-b
+                      border-black/20
+                      bg-transparent
+                      pb-4
+                      text-6xl
+                      font-bold
+                      outline-none
+                    "
+                  />
+                </div>
+
+                {/* Shipping */}
+
+                <div className="mb-10">
+                  <p className="text-xs tracking-[0.25em] text-[#6e7064]">
+                    SHIPPING COST
+                  </p>
+
+                  <input
+                    type="number"
+                    value={shipping}
+                    onChange={(e) =>
+                      setShipping(e.target.value)
+                    }
+                    className="
+                      mt-4
+                      w-full
+                      border-b
+                      border-black/20
+                      bg-transparent
+                      pb-4
+                      text-6xl
+                      font-bold
+                      outline-none
+                    "
+                  />
+                </div>
+
+                {/* Platform Fee */}
+
+                <div className="mb-10">
+                  <p className="text-xs tracking-[0.25em] text-[#6e7064]">
+                    PLATFORM FEE
+                  </p>
+
+                  <input
+                    type="number"
+                    value={platformFee}
+                    onChange={(e) =>
+                      setPlatformFee(e.target.value)
+                    }
+                    className="
+                      mt-4
+                      w-full
+                      border-b
+                      border-black/20
+                      bg-transparent
+                      pb-4
+                      text-6xl
+                      font-bold
+                      outline-none
+                    "
+                  />
+                </div>
+
+                {/* Commission */}
+
+                <div>
+                  <p className="text-xs tracking-[0.25em] text-[#6e7064]">
+                    COMMISSION %
+                  </p>
+
+                  <input
+                    type="number"
+                    value={commission}
+                    onChange={(e) =>
+                      setCommission(e.target.value)
+                    }
+                    className="
+                      mt-4
+                      w-full
+                      border-b
+                      border-black/20
+                      bg-transparent
+                      pb-4
+                      text-6xl
+                      font-bold
+                      outline-none
+                    "
+                  />
+                </div>
+              </div>
             </div>
-            <Link
-  href="/outreach"
-  className="mt-8 inline-flex rounded-xl bg-orange-600 px-5 py-3 text-white"
->
-  Generate Outreach →
-</Link>
+
+            {/* Results */}
+
+            <div>
+              <p className="text-xs tracking-[0.35em] text-[#6e7064]">
+                EARNINGS BREAKDOWN
+              </p>
+
+              <div className="mt-8 border border-black/10 bg-white p-10">
+                <div className="space-y-5">
+                  <div className="flex justify-between border-b border-black/10 pb-4">
+                    <span>Product Price</span>
+                    <span>₹{priceNum}</span>
+                  </div>
+
+                  <div className="flex justify-between border-b border-black/10 pb-4">
+                    <span>Shipping</span>
+                    <span>- ₹{shippingNum}</span>
+                  </div>
+
+                  <div className="flex justify-between border-b border-black/10 pb-4">
+                    <span>Platform Fee</span>
+                    <span>- ₹{platformFeeNum}</span>
+                  </div>
+
+                  <div className="flex justify-between border-b border-black/10 pb-4">
+                    <span>Commission</span>
+                    <span>{commissionNum}%</span>
+                  </div>
+                </div>
+
+                <div className="mt-12 border-t border-black/10 pt-10">
+                  <p className="text-xs tracking-[0.25em] text-[#6e7064]">
+                    ARTISAN RECEIVES
+                  </p>
+
+                  <div className="mt-4 text-7xl font-bold text-[#1c1b17]">
+                    ₹{artisanReceives.toFixed(0)}
+                  </div>
+
+                  <div className="mt-4 text-lg text-[#6e7064]">
+                    Margin: {margin}%
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-10 bg-[#1c1b17] p-10 text-white">
+                <p className="text-xs tracking-[0.35em] text-white/50">
+                  TRANSPARENCY
+                </p>
+
+                <h2 className="mt-4 text-4xl font-bold">
+                  Every Rupee
+                  <br />
+                  Accounted For.
+                </h2>
+
+                <p className="mt-6 leading-relaxed text-white/70">
+                  KarigarConnect AI enables artisans to
+                  understand the true economics behind
+                  creator-led commerce and optimize for
+                  long-term profitability.
+                </p>
+
+                <Link
+                  href="/outreach"
+                  className="
+                    mt-8
+                    inline-flex
+                    rounded-full
+                    bg-white
+                    px-8
+                    py-4
+                    text-xs
+                    font-semibold
+                    tracking-[0.25em]
+                    text-[#1c1b17]
+                  "
+                >
+                  GENERATE OUTREACH →
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
       </PageTransition>
     </DashboardLayout>
   );
 }
-

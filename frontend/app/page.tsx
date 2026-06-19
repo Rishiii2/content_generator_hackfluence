@@ -1,220 +1,150 @@
 import Link from "next/link";
 
-import { fetchFromAPI } from "@/lib/api";
 import DashboardLayout from "@/components/layout/dashboard-layout";
-import StatCard from "@/components/dashboard/stat-card";
 import RevenueChart from "@/components/dashboard/revenue-chart";
 import ProgressTracker from "@/components/dashboard/progress-tracker";
 import PageTransition from "@/components/ui/page-transition";
 
-export default async function Home() {
-  let impactData = { revenue_generated: "₹12.5L", families_supported: "850+", active_campaigns: 142 };
-  let featuredProduct = { name: "Handmade Terracotta Vase", description: "Sustainable Home Decor", price: 800 };
-  let recentCampaigns = [
-    { product: "Terracotta Vase", influencer: "Priya Decor", match: "94%", status: "Active", color: "green" },
-    { product: "Bamboo Basket", influencer: "Green Living India", match: "91%", status: "Pending", color: "yellow" }
-  ];
-
-  try {
-    impactData = await fetchFromAPI("/analytics/impact");
-    featuredProduct = await fetchFromAPI("/products/featured");
-    recentCampaigns = await fetchFromAPI("/campaigns/recent");
-  } catch (err) {
-    console.error(err);
-  }
-
+export default function Home() {
   return (
     <DashboardLayout>
         <PageTransition>
       <div>
-        {/* Premium Hero */}
+        {/* Editorial Hero */}
 
-        <div className="rounded-3xl bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 p-10 text-white shadow-lg">
-          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-            <div className="max-w-3xl">
-              <p className="text-sm font-medium uppercase tracking-wider text-orange-100">
-                AI Powered Creator Commerce
-              </p>
+<div className="border-b border-black/10 pb-20">
+  <p className="text-xs tracking-[0.35em] text-[#6e7064]">
+    KARIGARCONNECT AI
+  </p>
 
-              <h1 className="mt-3 text-5xl font-bold leading-tight">
-                Empower Rural Artisans Through
-                <br />
-                Influencer Marketing
-              </h1>
+  <h1 className="mt-6 max-w-6xl text-7xl font-bold leading-[0.92] text-[#1c1b17]">
+    The Platform Connecting
+    Rural Artisans With
+    The Creator Economy
+  </h1>
 
-              <p className="mt-5 max-w-2xl text-lg text-orange-100">
-                Discover creators, launch campaigns,
-                predict revenue, and grow artisan
-                businesses through AI-powered social
-                commerce.
-              </p>
+  <p className="mt-8 max-w-2xl text-lg text-[#6e7064]">
+    AI-powered creator discovery,
+    campaign forecasting,
+    outreach automation,
+    and revenue optimization for artisan businesses.
+  </p>
 
-              <div className="mt-8 flex flex-wrap gap-4">
-                <Link
-                  href="/upload"
-                  className="
-                    rounded-xl
-                    bg-white
-                    px-6
-                    py-3
-                    font-semibold
-                    text-orange-600
-                    transition
-                    hover:scale-105
-                  "
-                >
-                  Start Campaign →
-                </Link>
+  <div className="mt-10 flex gap-4">
+    <Link
+      href="/upload"
+      className="rounded-full bg-[#1c1b17] px-8 py-4 text-xs tracking-[0.25em] text-white"
+    >
+      EXPLORE PLATFORM →
+    </Link>
 
-                <Link
-                  href="/demo"
-                  className="
-                    rounded-xl
-                    border
-                    border-white/30
-                    px-6
-                    py-3
-                    font-semibold
-                    text-white
-                    transition
-                    hover:bg-white/10
-                  "
-                >
-                  View Demo
-                </Link>
-              </div>
-            </div>
-
-            <div className="rounded-3xl bg-white/10 p-6 backdrop-blur-sm">
-              <div className="grid gap-4">
-                <div>
-                  <p className="text-orange-100">
-                    Artisan Families
-                  </p>
-
-                  <p className="text-3xl font-bold">
-                    {impactData.families_supported}
-                  </p>
-                </div>
-
-                <div>
-                  <p className="text-orange-100">
-                    Creator Reach
-                  </p>
-
-                  <p className="text-3xl font-bold">
-                    2.1M
-                  </p>
-                </div>
-
-                <div>
-                  <p className="text-orange-100">
-                    Revenue Generated
-                  </p>
-
-                  <p className="text-3xl font-bold">
-                    {impactData.revenue_generated}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <Link
+      href="/demo"
+      className="rounded-full border border-black/20 px-8 py-4 text-xs tracking-[0.25em]"
+    >
+      VIEW DEMO
+    </Link>
+  </div>
+</div>
 
         {/* Workflow */}
 
         <ProgressTracker />
 
         {/* KPI Cards */}
+<div className="mt-20 grid gap-12 border-t border-black/10 pt-16 md:grid-cols-4">
+  <div>
+    <p className="text-xs tracking-[0.3em] text-[#6e7064]">
+      REVENUE GENERATED
+    </p>
 
-        <div className="mt-8 grid gap-6 md:grid-cols-4">
-          <StatCard
-            title="Products Listed"
-            value="142"
-          />
+    <h2 className="mt-4 text-6xl font-bold">
+      ₹12.5L
+    </h2>
+  </div>
 
-          <StatCard
-            title="Active Influencers"
-            value="58"
-          />
+  <div>
+    <p className="text-xs tracking-[0.3em] text-[#6e7064]">
+      FAMILIES SUPPORTED
+    </p>
 
-          <StatCard
-            title="Campaign Revenue"
-            value="₹4.2L"
-          />
+    <h2 className="mt-4 text-6xl font-bold">
+      850+
+    </h2>
+  </div>
 
-          <StatCard
-            title="Expected Reach"
-            value="1.8M"
-          />
-        </div>
+  <div>
+    <p className="text-xs tracking-[0.3em] text-[#6e7064]">
+      ACTIVE CAMPAIGNS
+    </p>
+
+    <h2 className="mt-4 text-6xl font-bold">
+      142
+    </h2>
+  </div>
+
+  <div>
+    <p className="text-xs tracking-[0.3em] text-[#6e7064]">
+      CREATOR REACH
+    </p>
+
+    <h2 className="mt-4 text-6xl font-bold">
+      2.1M
+    </h2>
+  </div>
+</div>
 
         {/* Quick Actions */}
 
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          <Link
-            href="/upload"
-            className="
-              rounded-2xl
-              bg-orange-600
-              p-6
-              text-white
-              transition-all
-              hover:-translate-y-1
-              hover:shadow-xl
-            "
-          >
-            <h3 className="text-xl font-bold">
-              Upload New Product
-            </h3>
+        <div className="mt-20 border-t border-black/10 pt-16">
+  <p className="text-xs tracking-[0.35em] text-[#6e7064]">
+    THE PLATFORM
+  </p>
 
-            <p className="mt-2 text-orange-100">
-              Add artisan products and begin AI analysis.
-            </p>
-          </Link>
+  <div className="mt-10 grid gap-10 md:grid-cols-3">
+    <Link href="/upload" className="border-b border-black/10 pb-8">
+      <div className="text-6xl font-bold text-[#1c1b17]">
+        01
+      </div>
 
-          <Link
-            href="/matching"
-            className="
-              rounded-2xl
-              bg-green-600
-              p-6
-              text-white
-              transition-all
-              hover:-translate-y-1
-              hover:shadow-xl
-            "
-          >
-            <h3 className="text-xl font-bold">
-              Find Influencers
-            </h3>
+      <h3 className="mt-4 text-2xl font-bold">
+        Product Intelligence
+      </h3>
 
-            <p className="mt-2 text-green-100">
-              Discover high-converting creators.
-            </p>
-          </Link>
+      <p className="mt-3 text-[#6e7064]">
+        Analyze artisan products using AI.
+      </p>
+    </Link>
 
-          <Link
-            href="/prediction"
-            className="
-              rounded-2xl
-              bg-slate-900
-              p-6
-              text-white
-              transition-all
-              hover:-translate-y-1
-              hover:shadow-xl
-            "
-          >
-            <h3 className="text-xl font-bold">
-              Predict Revenue
-            </h3>
+    <Link href="/matching" className="border-b border-black/10 pb-8">
+      <div className="text-6xl font-bold text-[#1c1b17]">
+        02
+      </div>
 
-            <p className="mt-2 text-slate-300">
-              Forecast campaign performance instantly.
-            </p>
-          </Link>
-        </div>
+      <h3 className="mt-4 text-2xl font-bold">
+        Creator Matching
+      </h3>
+
+      <p className="mt-3 text-[#6e7064]">
+        Find the highest-converting influencers.
+      </p>
+    </Link>
+
+    <Link href="/prediction" className="border-b border-black/10 pb-8">
+      <div className="text-6xl font-bold text-[#1c1b17]">
+        03
+      </div>
+
+      <h3 className="mt-4 text-2xl font-bold">
+        Forecasting Engine
+      </h3>
+
+      <p className="mt-3 text-[#6e7064]">
+        Predict revenue and campaign outcomes.
+      </p>
+    </Link>
+  </div>
+</div>
 
         {/* Revenue Chart */}
 
@@ -236,15 +166,15 @@ export default async function Home() {
 
             <div>
               <h3 className="font-semibold">
-                {featuredProduct.name}
+                Handmade Terracotta Vase
               </h3>
 
               <p className="text-slate-500">
-                {featuredProduct.description}
+                Sustainable Home Decor
               </p>
 
               <p className="mt-2 font-bold text-orange-600">
-                ₹{featuredProduct.price}
+                ₹800
               </p>
             </div>
           </div>
@@ -326,43 +256,48 @@ export default async function Home() {
 
         {/* Impact */}
 
-        <div className="mt-10 rounded-3xl bg-slate-900 p-8 text-white">
-          <h2 className="text-3xl font-bold">
-            Impact Generated
-          </h2>
+        <div className="mt-20 bg-[#1c1b17] p-16 text-white">
+  <p className="text-xs tracking-[0.35em] text-white/50">
+    PLATFORM IMPACT
+  </p>
 
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
-            <div>
-              <p className="text-4xl font-bold">
-                {impactData.revenue_generated}
-              </p>
+  <h2 className="mt-6 max-w-4xl text-5xl font-bold leading-tight">
+    Building the infrastructure
+    for creator-led artisan commerce.
+  </h2>
 
-              <p className="mt-2 text-slate-400">
-                Revenue Generated
-              </p>
-            </div>
+  <div className="mt-12 grid gap-10 md:grid-cols-3">
+    <div>
+      <div className="text-6xl font-bold">
+        ₹12.5L
+      </div>
 
-            <div>
-              <p className="text-4xl font-bold">
-                {impactData.families_supported}
-              </p>
+      <p className="mt-3 text-white/60">
+        Revenue Generated
+      </p>
+    </div>
 
-              <p className="mt-2 text-slate-400">
-                Artisan Families Supported
-              </p>
-            </div>
+    <div>
+      <div className="text-6xl font-bold">
+        850+
+      </div>
 
-            <div>
-              <p className="text-4xl font-bold">
-                2.1M
-              </p>
+      <p className="mt-3 text-white/60">
+        Families Supported
+      </p>
+    </div>
 
-              <p className="mt-2 text-slate-400">
-                Creator Reach
-              </p>
-            </div>
-          </div>
-        </div>
+    <div>
+      <div className="text-6xl font-bold">
+        2.1M
+      </div>
+
+      <p className="mt-3 text-white/60">
+        Creator Reach
+      </p>
+    </div>
+  </div>
+</div>
       </div>
       </PageTransition>
     </DashboardLayout>

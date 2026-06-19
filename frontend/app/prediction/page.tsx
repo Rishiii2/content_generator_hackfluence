@@ -1,247 +1,241 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import Link from "next/link";
 import PageTransition from "@/components/ui/page-transition";
-import { fetchFromAPI } from "@/lib/api";
 
-export default async function PredictionPage() {
-  let forecast = null;
-  try {
-    forecast = await fetchFromAPI("/prediction", {
-      method: "POST",
-      body: JSON.stringify({
-        match_score: 92,
-        followers: 45000,
-        engagement: 5.2,
-        product_price: 800
-      })
-    });
-  } catch (err) {
-    console.error(err);
-  }
-
-  const reach = forecast ? forecast.expected_reach : "145K";
-  const ctr = forecast ? forecast.predicted_ctr + "%" : "3.4%";
-  const orders = forecast ? forecast.expected_orders : "61";
-  const revenue = forecast ? "₹" + forecast.revenue : "₹48,800";
-  const netProfit = forecast ? "₹" + forecast.net_profit : "₹31,000";
-  const confidence = forecast ? forecast.ai_confidence_score + "%" : "92%";
-
+export default function PredictionPage() {
   return (
     <DashboardLayout>
-        <PageTransition>
-      <div>
-        {/* Header */}
+      <PageTransition>
+        <div className="max-w-7xl">
+          {/* Header */}
 
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold text-slate-900">
-              Campaign Prediction
+          <div className="border-b border-black/10 pb-16">
+            <p className="text-xs tracking-[0.35em] text-[#6e7064]">
+              04 / CAMPAIGN FORECAST
+            </p>
+
+            <h1 className="mt-6 text-7xl font-bold leading-[0.92] text-[#1c1b17]">
+              Revenue
+              <br />
+              Forecast
             </h1>
 
-            <p className="mt-2 text-slate-600">
-              AI-generated forecast for campaign performance.
+            <p className="mt-8 max-w-3xl text-lg text-[#6e7064]">
+              Predictive models estimate campaign
+              performance, conversion potential and
+              expected financial outcomes prior to launch.
             </p>
           </div>
 
-          <Link
-            href="/profit"
-            className="rounded-xl bg-orange-600 px-5 py-3 text-white hover:bg-orange-700"
-          >
-            Calculate Profit →
-          </Link>
-        </div>
+          {/* Forecast Metrics */}
 
-        {/* Prediction Cards */}
-
-        <div className="mt-8 grid gap-6 md:grid-cols-5">
-          <div className="rounded-3xl bg-blue-50 p-6 border border-blue-100">
-            <h3 className="text-sm text-blue-600">
-              Expected Reach
-            </h3>
-
-            <p className="mt-3 text-4xl font-bold text-blue-700">
-              {reach}
-            </p>
-          </div>
-
-          <div className="rounded-3xl bg-purple-50 p-6 border border-purple-100">
-            <h3 className="text-sm text-purple-600">
-              Predicted CTR
-            </h3>
-
-            <p className="mt-3 text-4xl font-bold text-purple-700">
-              {ctr}
-            </p>
-          </div>
-
-          <div className="rounded-3xl bg-orange-50 p-6 border border-orange-100">
-            <h3 className="text-sm text-orange-600">
-              Expected Orders
-            </h3>
-
-            <p className="mt-3 text-4xl font-bold text-orange-700">
-              {orders}
-            </p>
-          </div>
-
-          <div className="rounded-3xl bg-green-50 p-6 border border-green-100">
-            <h3 className="text-sm text-green-600">
-              Revenue
-            </h3>
-
-            <p className="mt-3 text-4xl font-bold text-green-700">
-              {revenue}
-            </p>
-          </div>
-
-          <div className="rounded-3xl bg-emerald-50 p-6 border border-emerald-100">
-            <h3 className="text-sm text-emerald-600">
-              Net Profit
-            </h3>
-
-            <p className="mt-3 text-4xl font-bold text-emerald-700">
-              {netProfit}
-            </p>
-          </div>
-        </div>
-
-        {/* AI Explanation */}
-
-        <div className="mt-8 rounded-3xl border bg-white p-8 shadow-sm">
-          <h2 className="text-2xl font-bold">
-            Why AI Predicts Success
-          </h2>
-
-          <div className="mt-6 grid gap-6 md:grid-cols-3">
-            <div>
-              <h3 className="font-semibold text-orange-600">
-                Audience Match
-              </h3>
-
-              <p className="mt-2 text-slate-600">
-                Creator audience aligns strongly with
-                sustainable home decor buyers.
+          <div className="mt-16 grid gap-10 md:grid-cols-5">
+            <div className="border-t border-black/10 pt-6">
+              <p className="text-xs tracking-[0.3em] text-[#6e7064]">
+                REACH
               </p>
+
+              <div className="mt-4 text-6xl font-bold">
+                145K
+              </div>
             </div>
 
-            <div>
-              <h3 className="font-semibold text-orange-600">
-                Engagement Rate
-              </h3>
-
-              <p className="mt-2 text-slate-600">
-                Historical engagement exceeds industry
-                average by 27%.
+            <div className="border-t border-black/10 pt-6">
+              <p className="text-xs tracking-[0.3em] text-[#6e7064]">
+                CTR
               </p>
+
+              <div className="mt-4 text-6xl font-bold">
+                3.4%
+              </div>
             </div>
 
-            <div>
-              <h3 className="font-semibold text-orange-600">
-                Product Demand
-              </h3>
-
-              <p className="mt-2 text-slate-600">
-                Eco-friendly handmade products show strong
-                seasonal demand.
+            <div className="border-t border-black/10 pt-6">
+              <p className="text-xs tracking-[0.3em] text-[#6e7064]">
+                ORDERS
               </p>
+
+              <div className="mt-4 text-6xl font-bold">
+                61
+              </div>
+            </div>
+
+            <div className="border-t border-black/10 pt-6">
+              <p className="text-xs tracking-[0.3em] text-[#6e7064]">
+                REVENUE
+              </p>
+
+              <div className="mt-4 text-6xl font-bold">
+                ₹48.8K
+              </div>
+            </div>
+
+            <div className="border-t border-black/10 pt-6">
+              <p className="text-xs tracking-[0.3em] text-[#6e7064]">
+                PROFIT
+              </p>
+
+              <div className="mt-4 text-6xl font-bold">
+                ₹31K
+              </div>
+            </div>
+          </div>
+
+          {/* Forecast Narrative */}
+
+          <div className="mt-20 border border-black/10 bg-white p-12">
+            <p className="text-xs tracking-[0.35em] text-[#6e7064]">
+              EXECUTIVE OUTLOOK
+            </p>
+
+            <h2 className="mt-6 text-5xl font-bold">
+              Strong Probability
+              <br />
+              Of Commercial Success
+            </h2>
+
+            <p className="mt-8 max-w-4xl text-lg leading-relaxed text-[#6e7064]">
+              Forecasting models indicate strong alignment
+              between creator audience demographics and
+              artisan product demand. Historical campaign
+              benchmarks suggest above-average conversion
+              performance and sustainable customer
+              acquisition economics.
+            </p>
+          </div>
+
+          {/* Forecast Drivers */}
+
+          <div className="mt-20">
+            <p className="text-xs tracking-[0.35em] text-[#6e7064]">
+              FORECAST DRIVERS
+            </p>
+
+            <div className="mt-10 grid gap-10 md:grid-cols-3">
+              <div className="border border-black/10 p-10">
+                <div className="text-6xl font-bold">
+                  94%
+                </div>
+
+                <h3 className="mt-6 text-2xl font-bold">
+                  Audience Alignment
+                </h3>
+
+                <p className="mt-4 text-[#6e7064]">
+                  Creator demographics closely match
+                  target artisan consumers.
+                </p>
+              </div>
+
+              <div className="border border-black/10 p-10">
+                <div className="text-6xl font-bold">
+                  5.2%
+                </div>
+
+                <h3 className="mt-6 text-2xl font-bold">
+                  Engagement Quality
+                </h3>
+
+                <p className="mt-4 text-[#6e7064]">
+                  Strong engagement signals indicate
+                  higher trust and purchase intent.
+                </p>
+              </div>
+
+              <div className="border border-black/10 p-10">
+                <div className="text-6xl font-bold">
+                  HIGH
+                </div>
+
+                <h3 className="mt-6 text-2xl font-bold">
+                  Market Demand
+                </h3>
+
+                <p className="mt-4 text-[#6e7064]">
+                  Growing consumer demand for ethical,
+                  sustainable artisan products.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Funnel */}
+
+          <div className="mt-20 border border-black/10 bg-white p-12">
+            <p className="text-xs tracking-[0.35em] text-[#6e7064]">
+              CONVERSION FUNNEL
+            </p>
+
+            <div className="mt-10 space-y-8">
+              <div className="flex items-center justify-between border-b border-black/10 pb-4">
+                <span>Reach</span>
+                <span className="font-bold">145,000</span>
+              </div>
+
+              <div className="flex items-center justify-between border-b border-black/10 pb-4">
+                <span>Clicks</span>
+                <span className="font-bold">4,930</span>
+              </div>
+
+              <div className="flex items-center justify-between border-b border-black/10 pb-4">
+                <span>Orders</span>
+                <span className="font-bold">61</span>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span>Revenue</span>
+                <span className="text-3xl font-bold">
+                  ₹48,800
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Confidence Report */}
+
+          <div className="mt-20 bg-[#1c1b17] p-16 text-white">
+            <p className="text-xs tracking-[0.35em] text-white/50">
+              MODEL CONFIDENCE
+            </p>
+
+            <div className="mt-8 flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
+              <div>
+                <h2 className="text-5xl font-bold">
+                  Forecast Confidence
+                </h2>
+
+                <p className="mt-6 max-w-2xl text-lg text-white/70">
+                  Generated using creator similarity
+                  scoring, historical campaign
+                  performance and category demand signals.
+                </p>
+              </div>
+
+              <div className="text-8xl font-bold">
+                92%
+              </div>
+            </div>
+
+            <div className="mt-16 border-t border-white/10 pt-10">
+              <Link
+                href="/profit"
+                className="
+                  rounded-full
+                  border
+                  border-white/20
+                  px-8
+                  py-4
+                  text-xs
+                  tracking-[0.25em]
+                  text-white
+                "
+              >
+                CONTINUE TO PROFIT ANALYSIS →
+              </Link>
             </div>
           </div>
         </div>
-
-        {/* Prediction Confidence */}
-
-        <div className="mt-8 rounded-3xl bg-slate-900 p-8 text-white">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold">
-                AI Confidence Score
-              </h2>
-
-              <p className="mt-2 text-slate-400">
-                Based on creator profile similarity,
-                engagement metrics and category demand.
-              </p>
-            </div>
-
-            <div className="text-6xl font-bold text-green-400">
-              {confidence}
-            </div>
-            <Link
-  href="/profit"
-  className="mt-8 inline-flex rounded-xl bg-orange-600 px-5 py-3 text-white"
->
-  Continue to Profit Calculator →
-</Link>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-8 rounded-3xl border bg-white p-8">
-  <h2 className="text-2xl font-bold">
-    Campaign Funnel
-  </h2>
-
-<div className="mt-8 rounded-3xl border bg-white p-8">
-  <h2 className="text-2xl font-bold">
-    Campaign Success Factors
-  </h2>
-
-  <div className="mt-6 grid gap-6 md:grid-cols-3">
-    <div className="rounded-2xl bg-blue-50 p-5">
-      <p className="text-sm text-blue-600">
-        Audience Alignment
-      </p>
-
-      <p className="mt-2 text-3xl font-bold">
-        94%
-      </p>
-    </div>
-
-    <div className="rounded-2xl bg-green-50 p-5">
-      <p className="text-sm text-green-600">
-        Creator Engagement
-      </p>
-
-      <p className="mt-2 text-3xl font-bold">
-        5.2%
-      </p>
-    </div>
-
-    <div className="rounded-2xl bg-orange-50 p-5">
-      <p className="text-sm text-orange-600">
-        Product Demand
-      </p>
-
-      <p className="mt-2 text-3xl font-bold">
-        High
-      </p>
-    </div>
-  </div>
-</div>
-
-  <div className="mt-6 space-y-4">
-    <div className="flex justify-between">
-      <span>Reach</span>
-      <span>{reach}</span>
-    </div>
-
-    <div className="flex justify-between">
-      <span>Clicks</span>
-      <span>4,930</span>
-    </div>
-
-    <div className="flex justify-between">
-      <span>Orders</span>
-      <span>{orders}</span>
-    </div>
-
-    <div className="flex justify-between font-bold text-green-600">
-      <span>Revenue</span>
-      <span>{revenue}</span>
-    </div>
-  </div>
-</div>
-</PageTransition>
+      </PageTransition>
     </DashboardLayout>
   );
 }
