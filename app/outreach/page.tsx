@@ -21,7 +21,11 @@ export default function OutreachPage() {
     setOutreachMessage("Gemini AI is crafting your message...");
     try {
       const productData = JSON.parse(localStorage.getItem('product') || '{}');
-      const response = await fetch("/api/outreach?influencer_name=Priya%20Decor&commission=15", {
+      const topMatch = JSON.parse(localStorage.getItem('top_match') || '{}');
+      const infName = encodeURIComponent(topMatch.influencer_name || "Priya Decor");
+      const comm = encodeURIComponent(topMatch.recommended_commission || 15);
+      
+      const response = await fetch(`/api/outreach?influencer_name=${infName}&commission=${comm}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -39,8 +43,9 @@ export default function OutreachPage() {
     }
   };
 
+  const topMatch = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('top_match') || '{}') : {};
   const dummy_str = `
-Dear Priya Decor,
+Dear ${topMatch.influencer_name || "Priya Decor"},
 
 We believe your audience aligns exceptionally well with our artisan-led commerce initiative.
 

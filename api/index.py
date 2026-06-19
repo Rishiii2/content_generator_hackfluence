@@ -120,7 +120,9 @@ def find_influencer_matches(request: ml_schemas.MatchRequest):
             "engagement": m["engagement"],
             "confidence_score": m["confidence_score"],
             "recommended_commission": comm,
-            "why_match": m["why_match"]
+            "why_match": m["why_match"],
+            "niche": m.get("niche", ""),
+            "audience": m.get("audience", "")
         })
     return results
 

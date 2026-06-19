@@ -20,6 +20,7 @@ export default function AnalysisPage() {
           const res = await fetch("/api/analyze", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            cache: 'no-store', // Force no-cache so we get fresh data every time!
             body: JSON.stringify({
               product_name: parsedProduct.name || "Handmade Terracotta Vase",
               price: parseFloat(String(parsedProduct.price || "800").replace("₹", "")),
@@ -121,7 +122,7 @@ export default function AnalysisPage() {
                 </p>
 
                 <p className="mt-4 text-7xl font-bold">
-                  91
+                  {analysis?.sustainability_score ?? "..."}
                 </p>
               </div>
 
@@ -131,7 +132,7 @@ export default function AnalysisPage() {
                 </p>
 
                 <p className="mt-4 text-7xl font-bold">
-                  High
+                  {analysis?.market_demand ?? "..."}
                 </p>
               </div>
 
@@ -141,7 +142,7 @@ export default function AnalysisPage() {
                 </p>
 
                 <p className="mt-4 text-7xl font-bold">
-                  92%
+                  {analysis?.ai_confidence ? `${analysis.ai_confidence}%` : "..."}
                 </p>
               </div>
             </div>
@@ -188,17 +189,14 @@ export default function AnalysisPage() {
 
             <h2 className="mt-6 max-w-5xl text-5xl font-bold leading-tight">
               This product demonstrates
-              strong creator-commerce potential
+              strong market potential
               within {analysis ? analysis.keywords?.slice(0,3).join(', ') : 'sustainability, lifestyle and handcrafted goods'} categories.
             </h2>
 
             <p className="mt-8 max-w-3xl text-lg leading-relaxed text-white/70">
               Audience analysis indicates that
-              eco-conscious consumers are highly
-              responsive to authentic artisan
-              storytelling. Lifestyle and home decor
-              creators are expected to generate the
-              strongest conversion rates.
+              {analysis ? analysis.audience : 'eco-conscious consumers'} are highly
+              responsive to this type of product. Creators in the {analysis ? analysis.category : 'lifestyle and home decor'} space are expected to generate the strongest conversion rates.
             </p>
 
             <div className="mt-12 flex items-center justify-between border-t border-white/10 pt-10">
@@ -208,7 +206,7 @@ export default function AnalysisPage() {
                 </p>
 
                 <div className="mt-4 text-7xl font-bold text-[#efece4]">
-                  92%
+                  {analysis?.ai_confidence ? `${analysis.ai_confidence}%` : "92%"}
                 </div>
               </div>
 

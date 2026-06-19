@@ -11,14 +11,19 @@ export default function PredictionPage() {
   useEffect(() => {
     const fetchForecast = async () => {
       try {
+        const topMatch = JSON.parse(localStorage.getItem('top_match') || '{}');
+        const productData = JSON.parse(localStorage.getItem('product') || '{}');
+        const price = parseFloat((productData.price || "800").replace("₹", ""));
+        
         const response = await fetch("/api/prediction", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          cache: "no-store",
           body: JSON.stringify({
-            match_score: 92,
-            followers: 45000,
-            engagement: 5.2,
-            product_price: 800
+            match_score: topMatch.match_score || 90,
+            followers: topMatch.followers || 10000,
+            engagement: topMatch.engagement || 3.5,
+            product_price: price
           })
         });
         const data = await response.json();
@@ -148,22 +153,22 @@ export default function PredictionPage() {
             <div className="mt-10 grid gap-10 md:grid-cols-3">
               <div className="border border-black/10 p-10">
                 <div className="text-6xl font-bold">
-                  94%
+                  {forecast?.ai_confidence_score ? `${forecast.ai_confidence_score}%` : "..."}
                 </div>
 
                 <h3 className="mt-6 text-2xl font-bold">
-                  Audience Alignment
+                  Match Alignment
                 </h3>
 
                 <p className="mt-4 text-[#6e7064]">
                   Creator demographics closely match
-                  target artisan consumers.
+                  target consumers based on our AI model.
                 </p>
               </div>
 
               <div className="border border-black/10 p-10">
                 <div className="text-6xl font-bold">
-                  5.2%
+                  {forecast ? ((typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('top_match') || '{}').engagement : null) || 5.2) + '%' : "..."}
                 </div>
 
                 <h3 className="mt-6 text-2xl font-bold">

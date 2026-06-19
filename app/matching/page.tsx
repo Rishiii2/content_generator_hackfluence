@@ -17,6 +17,7 @@ export default function MatchingPage() {
         const response = await fetch("/api/matching", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          cache: "no-store",
           body: JSON.stringify({
             product_name: productData.name || "Handmade Terracotta Vase",
             category: "Home Decor",
@@ -25,6 +26,9 @@ export default function MatchingPage() {
           })
         });
         const data = await response.json();
+        if (data && data.length > 0) {
+            localStorage.setItem("top_match", JSON.stringify(data[0]));
+        }
         setInfluencers(data);
       } catch (err) {
         console.error(err);
@@ -98,7 +102,7 @@ export default function MatchingPage() {
           <div className="mt-16 space-y-8">
             {influencers.map((item, index) => (
               <div
-                key={item.name}
+                key={item.influencer_name || index}
                 className="border border-black/10 bg-white p-10 transition hover:border-black/20"
               >
                 <div className="grid gap-8 lg:grid-cols-[120px_1fr_180px]">
@@ -122,7 +126,7 @@ export default function MatchingPage() {
                     </p>
 
                     <h3 className="mt-4 text-4xl font-bold">
-                      {item.name}
+                      {item.influencer_name}
                     </h3>
 
                     <p className="mt-3 text-lg text-[#6e7064]">
@@ -130,16 +134,18 @@ export default function MatchingPage() {
                     </p>
 
                     <div className="mt-8 flex flex-wrap gap-3">
+                      {item.niche && (
+                        <span className="border border-black/10 px-4 py-2 text-xs tracking-[0.2em] uppercase">
+                          {item.niche}
+                        </span>
+                      )}
+                      {item.audience && (
+                        <span className="border border-black/10 px-4 py-2 text-xs tracking-[0.2em] uppercase">
+                          {item.audience}
+                        </span>
+                      )}
                       <span className="border border-black/10 px-4 py-2 text-xs tracking-[0.2em]">
-                        HOME DECOR
-                      </span>
-
-                      <span className="border border-black/10 px-4 py-2 text-xs tracking-[0.2em]">
-                        SUSTAINABILITY
-                      </span>
-
-                      <span className="border border-black/10 px-4 py-2 text-xs tracking-[0.2em]">
-                        LIFESTYLE
+                        CREATOR
                       </span>
                     </div>
 
@@ -207,53 +213,23 @@ export default function MatchingPage() {
             </h2>
 
             <div className="mt-12 grid gap-10 md:grid-cols-3">
-              <div>
-                <div className="text-5xl font-bold">
-                  01
+              {influencers[0]?.why_match?.slice(0, 3).map((reason: string, i: number) => (
+                <div key={i}>
+                  <div className="text-5xl font-bold">
+                    0{i + 1}
+                  </div>
+                  <h3 className="mt-4 text-xl font-semibold">
+                    Dynamic Reason
+                  </h3>
+                  <p className="mt-4 leading-relaxed text-white/70">
+                    {reason}
+                  </p>
                 </div>
+              ))}
+              {!influencers[0]?.why_match && (
+                <div>Loading dynamic reasons...</div>
+              )}
 
-                <h3 className="mt-4 text-xl font-semibold">
-                  Audience Alignment
-                </h3>
-
-                <p className="mt-4 leading-relaxed text-white/70">
-                  Follower demographics strongly align
-                  with sustainability-focused artisan
-                  commerce consumers.
-                </p>
-              </div>
-
-              <div>
-                <div className="text-5xl font-bold">
-                  02
-                </div>
-
-                <h3 className="mt-4 text-xl font-semibold">
-                  Engagement Quality
-                </h3>
-
-                <p className="mt-4 leading-relaxed text-white/70">
-                  Above-average engagement indicates
-                  stronger trust and higher purchasing
-                  intent.
-                </p>
-              </div>
-
-              <div>
-                <div className="text-5xl font-bold">
-                  03
-                </div>
-
-                <h3 className="mt-4 text-xl font-semibold">
-                  Product Relevance
-                </h3>
-
-                <p className="mt-4 leading-relaxed text-white/70">
-                  Content themes naturally align with
-                  handmade, ethical and sustainable
-                  product categories.
-                </p>
-              </div>
             </div>
 
             <div className="mt-16 border-t border-white/10 pt-10">

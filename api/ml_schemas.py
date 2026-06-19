@@ -14,6 +14,8 @@ class MatchResult(BaseModel):
     confidence_score: int
     recommended_commission: float
     why_match: List[str]
+    niche: str = ""
+    audience: str = "" 
 
 class PredictionRequest(BaseModel):
     match_score: int

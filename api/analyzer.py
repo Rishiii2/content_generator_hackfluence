@@ -9,7 +9,7 @@ client = genai.Client(
     api_key=os.getenv("GEMINI_API_KEY")
 )
 
-REQUIRED_KEYS = {"category", "audience", "interests", "keywords"}
+REQUIRED_KEYS = {"category", "audience", "interests", "keywords", "sustainability_score", "market_demand", "ai_confidence"}
 
 
 def analyze_product(name, price, description):
@@ -21,13 +21,21 @@ Product Name: {name}
 Price: ₹{price}
 Description: {description}
 
+Categorize the product exactly as what it is (e.g., if it's a Mango, the category should be "Fruit/Produce" or "Food"). Do not force it into "Home Decor" or "Creator-Commerce" if it is not.
+Estimate a sustainability_score out of 100 based on how eco-friendly the description is.
+Estimate market_demand as "Low", "Medium", or "High".
+Estimate ai_confidence out of 100.
+
 Return JSON with exactly this structure:
 
 {{
   "category": "string",
   "audience": "string",
   "interests": ["string", "string", "string"],
-  "keywords": ["string", "string", "string"]
+  "keywords": ["string", "string", "string"],
+  "sustainability_score": 85,
+  "market_demand": "High",
+  "ai_confidence": 95
 }}
 
 Return ONLY JSON.
@@ -65,7 +73,10 @@ Do not add explanations.
             "category": "General Product",
             "audience": "Broad Audience",
             "interests": ["lifestyle"],
-            "keywords": ["general"]
+            "keywords": ["general"],
+            "sustainability_score": 50,
+            "market_demand": "Medium",
+            "ai_confidence": 50
         }
 
     # Ensure all keys exist so frontend doesn't break
@@ -73,7 +84,10 @@ Do not add explanations.
         "category": parsed.get("category", "General"),
         "audience": parsed.get("audience", "Broad Audience"),
         "interests": parsed.get("interests", ["lifestyle"]),
-        "keywords": parsed.get("keywords", ["product"])
+        "keywords": parsed.get("keywords", ["product"]),
+        "sustainability_score": parsed.get("sustainability_score", 50),
+        "market_demand": parsed.get("market_demand", "Medium"),
+        "ai_confidence": parsed.get("ai_confidence", 50)
     }
     
     return result
