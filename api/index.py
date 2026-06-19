@@ -94,14 +94,16 @@ from commission import recommend_commission
 
 @app.post("/api/analyze")
 def analyze(request: ml_schemas.MatchRequest):
-
-    analysis = analyze_product(
-        request.product_name,
-        request.price,
-        request.description
-    )
-
-    return analysis
+    try:
+        analysis = analyze_product(
+            request.product_name,
+            request.price,
+            request.description
+        )
+        return analysis
+    except Exception as e:
+        import traceback
+        return {"error": str(e), "traceback": traceback.format_exc()}
 
 @app.post("/api/matching", response_model=list[ml_schemas.MatchResult])
 def find_influencer_matches(request: ml_schemas.MatchRequest):
