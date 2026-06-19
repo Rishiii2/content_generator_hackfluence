@@ -20,7 +20,7 @@ def read_root():
     return {"message": "Welcome to the KarigarConnect AI Backend!"}
 
 # Another simple endpoint to demonstrate how we can return different data
-@app.get("/health")
+@app.get("/api/health")
 def health_check():
     return {"status": "ok", "service": "online"}
 
@@ -38,7 +38,7 @@ def calculate_profit(request: schemas.ProfitCalculatorRequest):
     return {"artisan_earnings": round(net_earnings, 2)}
 
 # --- Affiliate Link Generation ---
-@app.post("/campaigns/create")
+@app.post("/api/campaigns/create")
 def create_campaign(product_id: int, influencer_id: int, db: Session = Depends(get_db)):
     # Generate a random 8-character string for our unique link
     unique_code = str(uuid.uuid4())[:8]
@@ -61,7 +61,7 @@ def create_campaign(product_id: int, influencer_id: int, db: Session = Depends(g
 
 # --- The Click Tracker ---
 # When someone clicks the link, they visit this route.
-@app.get("/buy/{tracking_code}")
+@app.get("/api/buy/{tracking_code}")
 def track_click_and_redirect(tracking_code: str, db: Session = Depends(get_db)):
     # 1. Find the campaign with this unique code
     campaign = db.query(models.Campaign).filter(models.Campaign.affiliate_link == tracking_code).first()
@@ -87,7 +87,7 @@ from predictor import predict_campaign
 from outreach import generate_outreach
 from commission import recommend_commission
 
-@app.post("/analyze")
+@app.post("/api/analyze")
 def analyze(request: ml_schemas.MatchRequest):
 
     analysis = analyze_product(
@@ -127,7 +127,7 @@ def get_campaign_prediction(request: ml_schemas.PredictionRequest):
     )
     return forecast
 
-@app.post("/outreach")
+@app.post("/api/outreach")
 def get_outreach_message(request: ml_schemas.MatchRequest, influencer_name: str, commission: float):
     analysis = analyze_product(request.product_name, request.price, request.description)
     influencer_data = next(i for i in get_influencers() if i["name"] == influencer_name)
@@ -140,7 +140,7 @@ def get_outreach_message(request: ml_schemas.MatchRequest, influencer_name: str,
 
 # --- PHASE 2: DASHBOARD INTEGRATION ENDPOINTS ---
 
-@app.get("/analytics/revenue")
+@app.get("/api/analytics/revenue")
 def get_revenue_graph():
     """Returns month-by-month dummy revenue data for the chart."""
     return {
@@ -148,7 +148,7 @@ def get_revenue_graph():
         "data": [42000, 58000, 75000, 92000, 110000, 150000] # Increasing revenue
     }
 
-@app.get("/analytics/impact")
+@app.get("/api/analytics/impact")
 def get_impact_stats():
     """Returns overall platform impact stats."""
     return {
@@ -157,7 +157,7 @@ def get_impact_stats():
         "active_campaigns": 142
     }
 
-@app.get("/campaigns/recent")
+@app.get("/api/campaigns/recent")
 def get_recent_campaigns():
     """Returns a list of recent campaigns for the dashboard."""
     return [
@@ -168,7 +168,7 @@ def get_recent_campaigns():
         {"id": 5, "product": "Vegan Leather Wallet", "status": "Active", "influencers": 4, "roi": "+30%"}
     ]
 
-@app.get("/products/featured")
+@app.get("/api/products/featured")
 def get_featured_product():
     """Returns data for the primary featured product."""
     return {
