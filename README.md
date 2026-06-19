@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# KarigarConnect: AI-Powered Artisan Outreach
 
-## Getting Started
+KarigarConnect is a creator-commerce platform powered by the Gemini 2.5 Flash Lite API. It uses AI to dynamically analyze artisan products, match them with influencers using text-embeddings, and forecast revenue using a predictive algorithm.
 
-First, run the development server:
+## How It Works
+The frontend is built with **Next.js 14**, and the backend is built with **Python (FastAPI)**. It is designed to be deployed seamlessly on **Vercel**, which automatically handles the Python `/api` serverless functions.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## How to Run Locally
+
+If you clone this repository and want to run it on your own machine, you must run *both* the Next.js frontend server and the Python FastAPI backend server simultaneously.
+
+### 1. Set up your Environment Variables
+Create a `.env` file in the root of the project and add your Gemini API Key:
+```env
+GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Start the Python Backend
+The Python backend handles all the AI processing. You need to install the requirements and start the Uvicorn server.
+```bash
+# Install Python dependencies
+pip install fastapi uvicorn google-genai python-dotenv pydantic
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Start the FastAPI server on port 8000
+cd api
+uvicorn index:app --reload --port 8000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Start the Next.js Frontend
+Open a new terminal window, navigate to the root directory, and start Next.js.
+```bash
+# Install Node dependencies
+npm install
 
-## Learn More
+# Start the Next.js frontend on port 3000
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+*Note: The `next.config.ts` has been configured to automatically rewrite `/api/*` requests to your local Python server (`http://127.0.0.1:8000`) during development!*
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+This project is pre-configured for Vercel. Simply push the code to GitHub and import the repository into Vercel. Vercel will automatically detect the `/api` directory and deploy it as Python Serverless Functions. Remember to add your `GEMINI_API_KEY` to the Vercel Environment Variables in your project settings!
